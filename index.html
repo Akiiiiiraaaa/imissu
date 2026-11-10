@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#160d2b">
+  <title>imissyou ♡</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600&family=Playfair+Display:ital,wght@0,500;0,600;1,500;1,600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --lavender: #d9c2ff;
+      --lilac: #b88cff;
+      --pink: #f4b9e8;
+      --ink: #160d2b;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      min-height: 100svh;
+      overflow: hidden;
+      display: grid;
+      place-items: center;
+      padding: 24px;
+      color: #fff;
+      font-family: "DM Sans", sans-serif;
+      text-align: center;
+      background:
+        radial-gradient(ellipse at 18% 20%, rgba(126, 75, 183, .35), transparent 38%),
+        radial-gradient(ellipse at 82% 78%, rgba(173, 92, 181, .22), transparent 38%),
+        linear-gradient(145deg, #10091f 0%, #21113d 48%, #120b27 100%);
+    }
+    #sky, #fireworks {
+      position: fixed; inset: 0; width: 100%; height: 100%;
+      pointer-events: none;
+    }
+    #sky { z-index: 0; }
+    #fireworks { z-index: 1; }
+    .moon {
+      position: fixed; top: 8%; right: 12%;
+      width: 76px; height: 76px; border-radius: 50%;
+      background: #f0ddff;
+      box-shadow: 0 0 25px #d8b7ff, 0 0 75px rgba(190, 143, 255, .5);
+      opacity: .88;
+    }
+    .moon::after {
+      content: ""; position: absolute; width: 70px; height: 70px;
+      border-radius: 50%; background: #1b1033; left: 20px; top: -10px;
+    }
+    .wrap {
+      position: relative; z-index: 2; width: min(560px, 100%);
+      padding: 48px 34px 38px;
+      border: 1px solid rgba(225, 203, 255, .23);
+      border-radius: 28px;
+      background: linear-gradient(145deg, rgba(255,255,255,.105), rgba(255,255,255,.035));
+      box-shadow: 0 22px 90px rgba(0,0,0,.35), inset 0 1px rgba(255,255,255,.12);
+      backdrop-filter: blur(15px);
+      -webkit-backdrop-filter: blur(15px);
+      animation: card-in 1s ease both;
+    }
+    @keyframes card-in { from { opacity: 0; transform: translateY(18px) scale(.98); } to { opacity: 1; transform: none; } }
+    .eyebrow {
+      color: var(--lavender); font-size: .72rem; letter-spacing: .28em;
+      text-transform: uppercase; margin-bottom: 18px;
+    }
+    h1 {
+      font: 500 clamp(2rem, 7vw, 3.2rem)/1.12 "Playfair Display", Georgia, serif;
+      color: #fff; text-shadow: 0 0 28px rgba(207, 169, 255, .35);
+      margin-bottom: 14px;
+    }
+    .subtitle { color: #d3c1e9; font-size: .9rem; margin-bottom: 30px; }
+    .divider {
+      width: 54px; height: 1px; margin: 0 auto 26px;
+      background: linear-gradient(90deg, transparent, var(--pink), transparent);
+    }
+    .lyrics-container { min-height: 112px; display: grid; place-items: center; }
+    .lyric-line {
+      display: none; max-width: 100%;
+      color: #fff; font: italic 500 clamp(1.25rem, 4.8vw, 1.8rem)/1.5 "Playfair Display", Georgia, serif;
+      text-shadow: 0 0 22px rgba(218, 185, 255, .32);
+    }
+    .lyric-line.active { display: block; animation: lyric-in .65s cubic-bezier(.2,.8,.2,1) both; }
+    @keyframes lyric-in { from { opacity: 0; transform: translateY(13px); filter: blur(4px); } to { opacity: 1; transform: none; filter: blur(0); } }
+    .hint { color: #bba9d2; font-size: .78rem; margin: 12px 0 25px; }
+    .controls { display: flex; justify-content: center; gap: 12px; flex-wrap: wrap; }
+    button {
+      border: 1px solid rgba(233, 215, 255, .55);
+      border-radius: 999px; padding: 12px 23px;
+      color: #24133d; background: linear-gradient(120deg, #e4d0ff, #f3c8eb);
+      font: 600 .9rem "DM Sans", sans-serif; cursor: pointer;
+      box-shadow: 0 5px 24px rgba(188, 139, 255, .25);
+      transition: transform .2s ease, box-shadow .2s ease, filter .2s ease;
+    }
+    button:hover { transform: translateY(-2px); box-shadow: 0 8px 30px rgba(205, 161, 255, .4); filter: brightness(1.06); }
+    button:active { transform: scale(.97); }
+    button:focus-visible { outline: 2px solid white; outline-offset: 4px; }
+    button.secondary {
+      color: #eadcff; background: rgba(255,255,255,.07);
+      box-shadow: none; border-color: rgba(225,203,255,.25);
+    }
+    .random-message {
+      position: fixed;
+      z-index: 5;
+      left: 50%;
+      top: 50%;
+      transform: translate(-50%, -50%) scale(.7);
+      padding: 10px 16px;
+      border: 1px solid rgba(225, 203, 255, .4);
+      border-radius: 999px;
+      color: #f4ddff;
+      background: rgba(53, 29, 83, .78);
+      box-shadow: 0 0 24px rgba(184, 140, 255, .55);
+      font: 600 clamp(.85rem, 2.5vw, 1.05rem) "DM Sans", sans-serif;
+      letter-spacing: .04em;
+      white-space: nowrap;
+      pointer-events: none;
+      animation: message-pop 2.1s ease forwards;
+    }
+    @keyframes message-pop {
+      0% { opacity: 0; transform: translate(-50%, -35%) scale(.7); }
+      14% { opacity: 1; transform: translate(-50%, -50%) scale(1); }
+      75% { opacity: 1; }
+      100% { opacity: 0; transform: translate(-50%, -70%) scale(.92); }
+    }
+    .footer { margin-top: 28px; color: #a995c3; font-size: .72rem; letter-spacing: .08em; }
+    .heart { display: inline-block; color: #f1b8e8; animation: heartbeat 1.8s ease-in-out infinite; }
+    @keyframes heartbeat { 0%,100% { transform: scale(1); } 15% { transform: scale(1.22); } 30% { transform: scale(1); } }
+    @media (max-width: 480px) {
+      .wrap { padding: 38px 22px 30px; border-radius: 23px; }
+      .moon { width: 52px; height: 52px; top: 6%; right: 8%; }
+      .moon::after { width: 49px; height: 49px; left: 14px; top: -7px; }
+      .lyrics-container { min-height: 125px; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after { animation-duration: .01ms !important; animation-iteration-count: 1 !important; scroll-behavior: auto !important; }
+    }
+  </style>
+</head>
+<body>
+  <div class="moon" aria-hidden="true"></div>
+  <div id="sky" aria-hidden="true"></div>
+  <canvas id="fireworks" aria-hidden="true"></canvas>
+
+  <main class="wrap">
+    <p class="eyebrow">a little note for you</p>
+    <h1>i miss you <span class="heart">♡</span></h1>
+    <p class="subtitle">some feelings are written in the stars.</p>
+    <div class="divider"></div>
+
+    <section class="lyrics-container" aria-live="polite" aria-atomic="true">
+      <p class="lyric-line">That I miss you</p>
+      <p class="lyric-line">You know it's true</p>
+      <p class="lyric-line">So what if i call</p>
+      <p class="lyric-line">And you pick up the phone?</p>
+      <p class="lyric-line">And I use this holiday</p>
+      <p class="lyric-line">To make my way to your ghost</p>
+    </section>
+
+    <p class="hint" id="hint">tap below, one line at a time ✧</p>
+    <div class="controls">
+      <button id="next-btn" type="button">next line <span aria-hidden="true"> →</span></button>
+      <button id="restart-btn" class="secondary" type="button">start over ↻</button>
+    </div>
+    <p class="footer">made with <span class="heart">♥</span> under the same sky</p>
+  </main>
+
+  <script>
+    // Twinkling background stars
+    const sky = document.getElementById("sky");
+    for (let i = 0; i < 95; i++) {
+      const star = document.createElement("span");
+      const size = Math.random() * 2.2 + 0.7;
+      star.style.cssText = `
+        position:absolute; left:${Math.random() * 100}%; top:${Math.random() * 100}%;
+        width:${size}px; height:${size}px; border-radius:50%; background:#fff;
+        opacity:${Math.random() * .65 + .2};
+        box-shadow:0 0 ${size * 3}px rgba(222,197,255,.9);
+        animation:twinkle ${Math.random() * 3 + 2}s ease-in-out ${Math.random() * 3}s infinite alternate;
+      `;
+      sky.appendChild(star);
+    }
+    const starStyle = document.createElement("style");
+    starStyle.textContent = "@keyframes twinkle { from { opacity:.18; transform:scale(.75) } to { opacity:1; transform:scale(1.25) } }";
+    document.head.appendChild(starStyle);
+
+    // Responsive, multi-burst purple fireworks
+    const canvas = document.getElementById("fireworks");
+    const ctx = canvas.getContext("2d");
+    let width = 0, height = 0, particles = [];
+    const palette = ["#d9c2ff", "#b88cff", "#f4b9e8", "#ffffff", "#9870e8"];
+    function resizeCanvas() {
+      const dpr = Math.min(window.devicePixelRatio || 1, 2);
+      width = window.innerWidth; height = window.innerHeight;
+      canvas.width = Math.floor(width * dpr);
+      canvas.height = Math.floor(height * dpr);
+      canvas.style.width = width + "px";
+      canvas.style.height = height + "px";
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    }
+    window.addEventListener("resize", resizeCanvas);
+    resizeCanvas();
+
+    function burst(x = Math.random() * width, y = Math.random() * height * .55 + 35) {
+      const color = palette[Math.floor(Math.random() * palette.length)];
+      const count = 34;
+      for (let i = 0; i < count; i++) {
+        const angle = Math.PI * 2 * i / count;
+        const speed = Math.random() * 2.8 + 1.1;
+        particles.push({
+          x, y, vx: Math.cos(angle) * speed, vy: Math.sin(angle) * speed,
+          alpha: 1, decay: Math.random() * .012 + .009,
+          size: Math.random() * 2 + 1, color
+        });
+      }
+    }
+    let lastFrame = 0;
+    function animate(time) {
+      if (time - lastFrame > 16) {
+        lastFrame = time;
+        ctx.clearRect(0, 0, width, height);
+        particles = particles.filter(p => p.alpha > 0);
+        for (const p of particles) {
+          p.vx *= .985; p.vy = p.vy * .985 + .018;
+          p.x += p.vx; p.y += p.vy; p.alpha -= p.decay;
+          ctx.globalAlpha = Math.max(0, p.alpha);
+          ctx.fillStyle = p.color; ctx.shadowBlur = 12; ctx.shadowColor = p.color;
+          ctx.beginPath(); ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2); ctx.fill();
+        }
+        ctx.globalAlpha = 1; ctx.shadowBlur = 0;
+      }
+      requestAnimationFrame(animate);
+    }
+    requestAnimationFrame(animate);
+    const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    if (!reducedMotion) {
+      setInterval(() => burst(), 2600);
+    }
+
+    // Lyrics: next advances; after the final line it restarts cleanly.
+    const lines = [...document.querySelectorAll(".lyric-line")];
+    const nextBtn = document.getElementById("next-btn");
+    const restartBtn = document.getElementById("restart-btn");
+    const hint = document.getElementById("hint");
+    let currentIndex = -1;
+
+    function showLine(index) {
+      lines.forEach(line => line.classList.remove("active"));
+      currentIndex = index;
+      lines[currentIndex].classList.add("active");
+      hint.textContent = currentIndex === lines.length - 1
+        ? "that's all for now ♡"
+        : "keep going, there's more to say ✧";
+      nextBtn.innerHTML = currentIndex === lines.length - 1
+        ? 'start again <span aria-hidden="true"> ↻</span>'
+        : 'next line <span aria-hidden="true"> →</span>';
+      burst(width * (.25 + Math.random() * .5), height * (.2 + Math.random() * .35));
+    }
+    function showRandomMessage() {
+      const message = document.createElement("div");
+      message.className = "random-message";
+      message.textContent = "i miss u, zen";
+      // Keep the message fully inside the visible screen, away from the edges.
+      const margin = 115;
+      const x = margin + Math.random() * Math.max(0, window.innerWidth - margin * 2);
+      const y = 45 + Math.random() * Math.max(0, window.innerHeight - 90);
+      message.style.left = x + "px";
+      message.style.top = y + "px";
+      document.body.appendChild(message);
+      message.addEventListener("animationend", () => message.remove(), { once: true });
+    }
+
+    function advance() {
+      if (currentIndex >= lines.length - 1) showLine(0);
+      else showLine(currentIndex + 1);
+    }
+    function restart() {
+      lines.forEach(line => line.classList.remove("active"));
+      currentIndex = -1;
+      nextBtn.innerHTML = 'next line <span aria-hidden="true"> →</span>';
+      hint.textContent = "tap below, one line at a time ✧";
+      burst(width / 2, height * .35);
+    }
+    nextBtn.addEventListener("click", () => { showRandomMessage(); advance(); });
+    restartBtn.addEventListener("click", restart);
+
+    // Clicking/tapping the background creates a small firework.
+    document.addEventListener("pointerdown", event => {
+      if (event.target.closest("button, .wrap")) return;
+      burst(event.clientX, event.clientY);
+    });
+  </script>
+</body>
+</html>
